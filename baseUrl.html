@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>NetworkMockWeb</title>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script type="text/javascript" src="./js/jquery.3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <script type="text/javascript" src="./js/base_network.js"></script>
+
+    <style type="text/css">
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            border: 0px
+        }
+
+        .ehi_tabRow {
+            /*background-color: #2F2F2E;*/
+            height: 40px;
+        }
+
+        .ehi_tabCell {
+            display: table;
+            height: 40px;
+            border: #DFDFDF 0.1px solid;
+        }
+
+        .ehi_tabCell_content {
+            text-align: center;
+            display: table-cell;
+            vertical-align: middle;
+            height: 100%;
+            /*color: #71ffb5;*/
+            color: black;
+        }
+
+    </style>
+
+</head>
+
+<body style="overflow: hidden;background-color: #1E2124;">
+
+<!--顶部的导航栏-->
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark"
+         style="background-color: #2F2F2E;width: 100%;height:60px;position: fixed;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav" style="margin-left: 20px;">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">入站配置</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">出站配置</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">baseUrl配置</a>
+                </li>
+            </ul>
+        </div>
+        <span class="navbar-text" style="margin-right: 10px;color: white;">
+             <button type="button" class="btn-sm btn-success" style="margin-right: 20px;" data-toggle="modal" data-target="#updateOrSaveModal">add one</button>
+             <span>NetworkMockWeb</span>
+        </span>
+    </nav>
+</div>
+
+<div style="position: absolute;top: 60px;width: 100%;height: 100%; right: 0%; overflow-y: auto;overflow-x: hidden;padding-bottom: 20px;">
+
+    <table class="table table-dark" style="width: 100%;alignment: center;">
+        <thead>
+        <tr>
+            <th style="text-align: right;" scope="col">id</th>
+            <th style="text-align: right;" scope="col">project</th>
+            <th style="text-align: right;" scope="col">platform</th>
+            <th style="text-align: right;" scope="col">env</th>
+            <th style="text-align: right;" scope="col">baseUrl</th>
+            <th style="text-align: right;" scope="col">desc</th>
+            <th style="text-align: right;" scope="col">
+                operation
+            </th>
+        </tr>
+        </thead>
+        <tbody id="base_url_list">
+
+        <tr v-for="entity in baseUrlList">
+            <th style="text-align: right;vertical-align: middle;" scope="row">
+                {{entity.id}}
+            </th>
+            <td style="text-align: right;vertical-align: middle;">
+                {{entity.project}}
+            </td>
+            <td style="text-align: right;vertical-align: middle;">
+                {{entity.platform}}
+            </td>
+            <td style="text-align: right;vertical-align: middle;">
+                {{entity.env}}
+            </td>
+            <td style="text-align: right;vertical-align: middle;">
+                {{entity.baseUrl}}
+            </td>
+            <td style="text-align: right;vertical-align: middle;">
+                {{entity.desc}}
+            </td>
+            <td style="text-align: right;vertical-align: middle;">
+                <button type="button" class="btn-sm btn-danger" v-on:click="deleteBaseUrl(entity.id)">delete</button>
+                <button type="button" class="btn-sm btn-success">update</button>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation example" id="pagination">
+        <ul class="pagination justify-content-end" style="margin-right: 1%;">
+
+            <li v-if="currentPage > 1" class="page-item">
+                <a class="page-link text-light bg-dark border-dark" href="#" v-on:click="selectPage(currentPage - 1)">Previous</a>
+            </li>
+
+            <li v-if="currentPage <= 1" class="page-item">
+                <a class="page-link text-light bg-dark border-dark" href="#">Previous</a>
+            </li>
+
+            <li class="page-item" v-for="i in pageCount">
+                <a v-if="currentPage==i" class="page-link text-light bg-info border-dark" href="#"
+                   v-on:click="selectPage(i)">
+                    {{i}}
+                </a>
+                <a v-if="currentPage!=i" class="page-link text-light bg-dark border-dark" href="#"
+                   v-on:click="selectPage(i)">
+                    {{i}}
+                </a>
+            </li>
+
+            <li v-if="currentPage < pageCount" class="page-item">
+                <a class="page-link text-light bg-dark border-dark" href="#" v-on:click="selectPage(currentPage + 1)">Next</a>
+            </li>
+
+            <li v-if="currentPage >= pageCount" class="page-item">
+                <a class="page-link text-light bg-dark border-dark" href="#">Next</a>
+            </li>
+
+        </ul>
+    </nav>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade text-light" id="updateOrSaveModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg text-light" role="document">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header text-light">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-light">
+                <form>
+                    <div class="form-group">
+                        <label for="updateOrSaveModalProject">Project</label>
+                        <select class="form-control bg-dark text-light" id="updateOrSaveModalProject"
+                                v-model="baseUrlBean.project">
+                            <option>一嗨租车</option>
+                            <option>司机Pad</option>
+                            <option>门店Pad</option>
+                            <option>考拉爱车</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateOrSaveModalPlatform">Platform</label>
+                        <select class="form-control bg-dark text-light" id="updateOrSaveModalPlatform"
+                                v-model="baseUrlBean.platform">
+                            <option>Android</option>
+                            <option>iOS</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateOrSaveModalEnv">Env</label>
+                        <select class="form-control bg-dark text-light" id="updateOrSaveModalEnv"
+                                v-model="baseUrlBean.env">
+                            <option>dev</option>
+                            <option>demo</option>
+                            <option>release</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateOrSaveModalBaseurl">Baseurl</label>
+                        <input type="text" class="form-control bg-dark text-light" id="updateOrSaveModalBaseurl"
+                               placeholder="Enter Baseurl" v-on:input="baseurlChange($event)">
+                    </div>
+                    <div class="form-group">
+                        <label for="updateOrSaveModalBaseurl">Desc</label>
+                        <input type="text" class="form-control bg-dark text-light" id="updateOrSaveModalDesc"
+                               placeholder="Enter Desc" v-on:input="descChange($event)">
+                    </div>
+                </form>
+            </div>
+            <div class="d-flex justify-content-end" style="padding: 10px;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Close
+                </button>
+                <button type="button" class="btn btn-success" v-on:click="updateOrSave()">save or update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    // 分页的数据
+    var pagination = new Vue({
+        el: '#pagination',
+        data: {
+            pageCount: 0,
+            currentPage: 0
+        },
+        methods: {
+            selectPage: function (pageIndex) {
+                pageDataRequest(pageIndex);
+            }
+        }
+    })
+
+    // 列表的数据
+    var base_url_list = new Vue({
+        el: '#base_url_list',
+        data: {
+            baseUrlList: []
+        },
+        mounted: function () {
+            this.$nextTick(
+                function () {
+                    pageDataRequest(1);
+                }
+            )
+        },
+        methods: {
+            deleteBaseUrl: function (id) {
+                req({
+                    url: baseUrl + "baseUrl?id=" + id,
+                    type: 'delete'
+                }, function () {
+                    pageDataRequest(pagination.currentPage);
+                })
+            }
+        }
+    })
+
+    var updateOrSaveModal = new Vue({
+        el: '#updateOrSaveModal',
+        data: {
+            baseUrlBean: {
+                project: "",
+                platform: "",
+                env: "",
+                baseUrl: "",
+                desc: ""
+            }
+        },
+        methods: {
+            baseurlChange: function (inputEvent) {
+                updateOrSaveModal.baseUrlBean.baseUrl = inputEvent.target.value;
+            },
+            descChange: function (inputEvent) {
+                updateOrSaveModal.baseUrlBean.desc = inputEvent.target.value;
+            },
+            updateOrSave: function () {
+                req(
+                    {
+                        url: baseUrl + "baseUrl",
+                        type: 'post',
+                        data: {
+                            project: updateOrSaveModal.baseUrlBean.project,
+                            platform: updateOrSaveModal.baseUrlBean.platform,
+                            env: updateOrSaveModal.baseUrlBean.env,
+                            baseUrl: updateOrSaveModal.baseUrlBean.baseUrl,
+                            desc: updateOrSaveModal.baseUrlBean.desc
+                        }
+                    },function (result) { // 如果成功了
+                        for(var item in updateOrSaveModal.baseUrlBean){
+                            item = null;
+                        }
+                        $("#updateOrSaveModal").modal('hide');
+                        pageDataRequest(pagination.currentPage);
+                    },function (msg) {
+                        alert("msg = " + msg);
+                    }
+                )
+            }
+        }
+    })
+
+    function pageDataRequest(pageIndex) {
+        req({url: baseUrl + "baseUrl/list?pageIndex=" + pageIndex + "&pageSize=" + pageSize},
+            function (result) {
+                if (result.totalCount % pageSize == 0) {
+                    pagination.pageCount = (result.totalCount / pageSize);
+                } else {
+                    pagination.pageCount = ((result.totalCount - result.totalCount % pageSize) / pageSize) + 1;
+                }
+                pagination.currentPage = result.currentPage;
+                base_url_list.baseUrlList = result.items;
+            }, function (msg) {
+                alert("msg = " + msg)
+            }
+        )
+
+    }
+
+</script>
+
+</body>
+
+</html>

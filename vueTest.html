@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script type="text/javascript" src="js/jquery.3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/base_network.js"></script>
+
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+</head>
+<body>
+
+<div id="app-4">
+    <ol>
+        <li v-for="todo in todos">
+            {{ todo.text }}
+        </li>
+    </ol>
+</div>
+
+<script type="text/javascript">
+
+    var app4 = new Vue({
+        el: '#app-4',
+        data: {
+            todos: []
+        },
+        mounted: function () {
+            this.$nextTick(
+                function () {
+                    req({url: baseUrl + "baseUrl/list?pageIndex=1&pageSize=2"},
+                        function (result) {
+
+                        }, function (msg) {
+
+                        }
+                    )
+                }
+            )
+        }
+    })
+
+</script>
+
+</body>
+</html>

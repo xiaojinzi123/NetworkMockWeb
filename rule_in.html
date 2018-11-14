@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>NetworkMockWeb</title>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <script type="text/javascript" src="js/jquery.3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/base_network.js"></script>
+
+    <style type="text/css">
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            border: 0px
+        }
+
+        .ehi_tabRow {
+            /*background-color: #2F2F2E;*/
+            height: 40px;
+        }
+
+        .ehi_tabCell {
+            display: table;
+            height: 40px;
+            border: #DFDFDF 0.1px solid;
+        }
+
+        .ehi_tabCell_content {
+            text-align: center;
+            display: table-cell;
+            vertical-align: middle;
+            height: 100%;
+            /*color: #71ffb5;*/
+            color: black;
+        }
+
+    </style>
+
+</head>
+
+<body style="overflow: hidden;background-color: #1E2124;">
+
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark"
+         style="background-color: #2F2F2E;width: 100%;height:60px;position: fixed;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav" style="margin-left: 20px;">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">入站配置</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">出站配置</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">baseUrl配置</a>
+                </li>
+            </ul>
+        </div>
+        <span class="navbar-text" style="margin-right: 10px;color: white;">
+      NetworkMockWeb
+    </span>
+    </nav>
+</div>
+
+<div style="position: absolute;top: 60px;width: 100%;height: 100%; right: 0%; overflow-y: auto;overflow-x: hidden;padding-bottom: 20px;">
+
+    <table class="table table-dark" style="width: 100%;alignment: center;">
+        <thead>
+            <tr>
+                <th style="text-align: right;" scope="col">id</th>
+                <th style="text-align: right;" scope="col">project</th>
+                <th style="text-align: right;" scope="col">platform</th>
+                <th style="text-align: right;" scope="col">env</th>
+                <th style="text-align: right;" scope="col">version</th>
+                <th style="text-align: right;" scope="col">requestUrl</th>
+                <th style="text-align: right;" scope="col">requestMethod</th>
+                <th style="text-align: right;" scope="col">query</th>
+                <th style="text-align: right;" scope="col">bodypath</th>
+                <th style="text-align: right;" scope="col">operation</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <th style="text-align: right;vertical-align: middle;" scope="row">1</th>
+                <td style="text-align: right;vertical-align: middle;">test/mock/data</td>
+                <td style="text-align: right;vertical-align: middle;">MarkMarkMark</td>
+                <td style="text-align: right;vertical-align: middle;">Otto</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">
+                    <button type="button" class="btn-sm btn-danger">delete</button>
+                    <button type="button" class="btn-sm btn-success">update</button>
+                </td>
+            </tr>
+
+            <tr>
+                <th style="text-align: right;vertical-align: middle;" scope="row">1</th>
+                <td style="text-align: right;vertical-align: middle;">test/mock/data</td>
+                <td style="text-align: right;vertical-align: middle;">MarkMarkMark</td>
+                <td style="text-align: right;vertical-align: middle;">Otto</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">
+                    <button type="button" class="btn-sm btn-danger">delete</button>
+                    <button type="button" class="btn-sm btn-success">update</button>
+                </td>
+            </tr>
+
+            <tr>
+                <th style="text-align: right;vertical-align: middle;" scope="row">1</th>
+                <td style="text-align: right;vertical-align: middle;">test/mock/data</td>
+                <td style="text-align: right;vertical-align: middle;">MarkMarkMark</td>
+                <td style="text-align: right;vertical-align: middle;">Otto</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">
+                    <button type="button" class="btn-sm btn-danger">delete</button>
+                    <button type="button" class="btn-sm btn-success">update</button>
+                </td>
+            </tr>
+
+            <tr>
+                <th style="text-align: right;vertical-align: middle;" scope="row">1</th>
+                <td style="text-align: right;vertical-align: middle;">test/mock/data</td>
+                <td style="text-align: right;vertical-align: middle;">MarkMarkMark</td>
+                <td style="text-align: right;vertical-align: middle;">Otto</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">
+                    <button type="button" class="btn-sm btn-danger">delete</button>
+                    <button type="button" class="btn-sm btn-success">update</button>
+                </td>
+            </tr>
+
+            <tr>
+                <th style="text-align: right;vertical-align: middle;" scope="row">1</th>
+                <td style="text-align: right;vertical-align: middle;">test/mock/data</td>
+                <td style="text-align: right;vertical-align: middle;">MarkMarkMark</td>
+                <td style="text-align: right;vertical-align: middle;">Otto</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">
+                    <button type="button" class="btn-sm btn-danger">delete</button>
+                    <button type="button" class="btn-sm btn-success">update</button>
+                </td>
+            </tr>
+
+            <tr>
+                <th style="text-align: right;vertical-align: middle;" scope="row">1</th>
+                <td style="text-align: right;vertical-align: middle;">test/mock/data</td>
+                <td style="text-align: right;vertical-align: middle;">MarkMarkMark</td>
+                <td style="text-align: right;vertical-align: middle;">Otto</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">
+                    <button type="button" class="btn-sm btn-danger">delete</button>
+                    <button type="button" class="btn-sm btn-success">update</button>
+                </td>
+            </tr>
+
+            <tr>
+                <th style="text-align: right;vertical-align: middle;" scope="row">1</th>
+                <td style="text-align: right;vertical-align: middle;">test/mock/data</td>
+                <td style="text-align: right;vertical-align: middle;">MarkMarkMark</td>
+                <td style="text-align: right;vertical-align: middle;">Otto</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">
+                    <button type="button" class="btn-sm btn-danger">delete</button>
+                    <button type="button" class="btn-sm btn-success">update</button>
+                </td>
+            </tr>
+
+            <tr>
+                <th style="text-align: right;vertical-align: middle;" scope="row">1</th>
+                <td style="text-align: right;vertical-align: middle;">test/mock/data</td>
+                <td style="text-align: right;vertical-align: middle;">MarkMarkMark</td>
+                <td style="text-align: right;vertical-align: middle;">Otto</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">
+                    <button type="button" class="btn-sm btn-danger">delete</button>
+                    <button type="button" class="btn-sm btn-success">update</button>
+                </td>
+            </tr>
+
+            <tr>
+                <th style="text-align: right;vertical-align: middle;" scope="row">1</th>
+                <td style="text-align: right;vertical-align: middle;">test/mock/data</td>
+                <td style="text-align: right;vertical-align: middle;">MarkMarkMark</td>
+                <td style="text-align: right;vertical-align: middle;">Otto</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">@mdo</td>
+                <td style="text-align: right;vertical-align: middle;">
+                    <button type="button" class="btn-sm btn-danger">delete</button>
+                    <button type="button" class="btn-sm btn-success">update</button>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end" style="margin-right: 1%;">
+            <li class="page-item">
+                <a class="page-link text-light bg-dark border-dark" href="#">Previous</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link text-light bg-dark border-dark" href="#">1</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link text-light bg-dark border-dark" href="#">2</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link text-light bg-dark border-dark" href="#">3</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link text-light bg-dark border-dark" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+
+</body>
+
+</html>
