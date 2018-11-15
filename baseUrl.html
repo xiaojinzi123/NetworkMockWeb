@@ -69,7 +69,7 @@
         <div class="collapse navbar-collapse" id="navbarNav" style="margin-left: 20px;">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">入站配置</a>
+                    <a class="nav-link" href="./rule_in.html">入站配置</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">出站配置</a>
@@ -80,7 +80,7 @@
             </ul>
         </div>
         <span class="navbar-text" style="margin-right: 10px;color: white;">
-             <button type="button" class="btn-sm btn-success" style="margin-right: 20px;" data-toggle="modal" data-target="#updateOrSaveModal">add one</button>
+             <button type="button" class="btn-sm btn-success" style="margin-right: 20px;" onclick="openUpdateOrSaveModal()">add one</button>
              <span>NetworkMockWeb</span>
         </span>
     </nav>
@@ -125,14 +125,14 @@
             </td>
             <td style="text-align: right;vertical-align: middle;">
                 <button type="button" class="btn-sm btn-danger" v-on:click="deleteBaseUrl(entity.id)">delete</button>
-                <button type="button" class="btn-sm btn-success">update</button>
+                <button type="button" class="btn-sm btn-success" v-on:click="updateBaseUrl(entity)">update</button>
             </td>
         </tr>
 
         </tbody>
     </table>
 
-    <nav aria-label="Page navigation example" id="pagination">
+    <nav aria-label="pagination" id="pagination">
         <ul class="pagination justify-content-end" style="margin-right: 1%;">
 
             <li v-if="currentPage > 1" class="page-item">
@@ -168,65 +168,112 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade text-light" id="updateOrSaveModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg text-light" role="document">
-        <div class="modal-content bg-dark text-light">
-            <div class="modal-header text-light">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-light">
-                <form>
-                    <div class="form-group">
-                        <label for="updateOrSaveModalProject">Project</label>
-                        <select class="form-control bg-dark text-light" id="updateOrSaveModalProject"
-                                v-model="baseUrlBean.project">
-                            <option>一嗨租车</option>
-                            <option>司机Pad</option>
-                            <option>门店Pad</option>
-                            <option>考拉爱车</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="updateOrSaveModalPlatform">Platform</label>
-                        <select class="form-control bg-dark text-light" id="updateOrSaveModalPlatform"
-                                v-model="baseUrlBean.platform">
-                            <option>Android</option>
-                            <option>iOS</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="updateOrSaveModalEnv">Env</label>
-                        <select class="form-control bg-dark text-light" id="updateOrSaveModalEnv"
-                                v-model="baseUrlBean.env">
-                            <option>dev</option>
-                            <option>demo</option>
-                            <option>release</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="updateOrSaveModalBaseurl">Baseurl</label>
-                        <input type="text" class="form-control bg-dark text-light" id="updateOrSaveModalBaseurl"
-                               placeholder="Enter Baseurl" v-on:input="baseurlChange($event)">
-                    </div>
-                    <div class="form-group">
-                        <label for="updateOrSaveModalBaseurl">Desc</label>
-                        <input type="text" class="form-control bg-dark text-light" id="updateOrSaveModalDesc"
-                               placeholder="Enter Desc" v-on:input="descChange($event)">
-                    </div>
-                </form>
-            </div>
-            <div class="d-flex justify-content-end" style="padding: 10px;">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Close
-                </button>
-                <button type="button" class="btn btn-success" v-on:click="updateOrSave()">save or update</button>
+<div>
+
+    <!--添加或者保存一个Baseurl的弹框-->
+    <div class="modal fade text-light" id="updateOrSaveModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg text-light" role="document">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header text-light">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="bg-dark text-light">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-light">
+                    <form>
+                        <div class="form-group">
+                            <label for="updateOrSaveModalProject">Project</label>
+                            <select class="form-control bg-dark text-light" id="updateOrSaveModalProject"
+                                    v-model="baseUrlBean.project">
+                                <option>一嗨租车</option>
+                                <option>司机Pad</option>
+                                <option>门店Pad</option>
+                                <option>考拉爱车</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateOrSaveModalPlatform">Platform</label>
+                            <select class="form-control bg-dark text-light" id="updateOrSaveModalPlatform"
+                                    v-model="baseUrlBean.platform">
+                                <option value="">none</option>
+                                <option>Android</option>
+                                <option>iOS</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateOrSaveModalEnv">Env</label>
+                            <select class="form-control bg-dark text-light" id="updateOrSaveModalEnv"
+                                    v-model="baseUrlBean.env">
+                                <option>dev</option>
+                                <option>demo</option>
+                                <option>demo3</option>
+                                <option>release</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateOrSaveModalBaseurl">Baseurl</label>
+                            <input type="text" class="form-control bg-dark text-light" id="updateOrSaveModalBaseurl"
+                                   placeholder="Enter Baseurl" v-model="baseUrlBean.baseUrl">
+                        </div>
+                        <div class="form-group">
+                            <label for="updateOrSaveModalBaseurl">Desc</label>
+                            <input type="text" class="form-control bg-dark text-light" id="updateOrSaveModalDesc"
+                                   placeholder="Enter Desc" v-model="baseUrlBean.desc">
+                        </div>
+                    </form>
+                </div>
+                <div class="d-flex justify-content-end" style="padding: 10px;">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">
+                        Close
+                    </button>
+                    <button type="button" class="btn btn-success" v-on:click="updateOrSave()">save or update</button>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content bg-dark text-light" style="">
+                <div class="">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-right: 10px;margin-top: 10px;">
+                        <span aria-hidden="true" class="bg-dark text-light">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="padding: 10px;">
+                    您确定要删除这个item吗?
+                </div>
+                <div class="d-flex justify-content-end" style="padding: 10px;">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">
+                        Close
+                    </button>
+                    <button type="button" class="btn btn-success" v-on:click="deleteEntity()">ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script type="text/javascript">
+
+    function openUpdateOrSaveModal() {
+        clearUpdateOrSaveModalData();
+        $('#updateOrSaveModal').modal('show');
+    }
+
+    function clearUpdateOrSaveModalData() {
+        updateOrSaveModal.baseUrlBean = {
+            id:"",
+            project: "",
+            platform: "",
+            env: "",
+            baseUrl: "",
+            desc: ""
+        }
+    }
 
     // 分页的数据
     var pagination = new Vue({
@@ -257,12 +304,12 @@
         },
         methods: {
             deleteBaseUrl: function (id) {
-                req({
-                    url: baseUrl + "baseUrl?id=" + id,
-                    type: 'delete'
-                }, function () {
-                    pageDataRequest(pagination.currentPage);
-                })
+                deleteModal.baseUrlBean.id = id;
+                $('#deleteModal').modal('show');
+            },
+            updateBaseUrl: function (baseUrlBean) {
+                updateOrSaveModal.baseUrlBean = JSON.parse(JSON.stringify(baseUrlBean));
+                $('#updateOrSaveModal').modal('show');
             }
         }
     })
@@ -271,6 +318,7 @@
         el: '#updateOrSaveModal',
         data: {
             baseUrlBean: {
+                id:"",
                 project: "",
                 platform: "",
                 env: "",
@@ -279,34 +327,78 @@
             }
         },
         methods: {
-            baseurlChange: function (inputEvent) {
-                updateOrSaveModal.baseUrlBean.baseUrl = inputEvent.target.value;
-            },
-            descChange: function (inputEvent) {
-                updateOrSaveModal.baseUrlBean.desc = inputEvent.target.value;
-            },
             updateOrSave: function () {
-                req(
-                    {
-                        url: baseUrl + "baseUrl",
-                        type: 'post',
-                        data: {
-                            project: updateOrSaveModal.baseUrlBean.project,
-                            platform: updateOrSaveModal.baseUrlBean.platform,
-                            env: updateOrSaveModal.baseUrlBean.env,
-                            baseUrl: updateOrSaveModal.baseUrlBean.baseUrl,
-                            desc: updateOrSaveModal.baseUrlBean.desc
+                if (updateOrSaveModal.baseUrlBean.id == null || updateOrSaveModal.baseUrlBean.id == "") {
+                    req(
+                        {
+                            url: baseUrl + "baseUrl",
+                            type: 'post',
+                            data: {
+                                project: updateOrSaveModal.baseUrlBean.project,
+                                platform: updateOrSaveModal.baseUrlBean.platform,
+                                env: updateOrSaveModal.baseUrlBean.env,
+                                baseUrl: updateOrSaveModal.baseUrlBean.baseUrl,
+                                desc: updateOrSaveModal.baseUrlBean.desc
+                            }
+                        }, function (result) { // 如果成功了
+                            for (var item in updateOrSaveModal.baseUrlBean) {
+                                item = null;
+                            }
+                            $("#updateOrSaveModal").modal('hide');
+                            pageDataRequest(pagination.currentPage);
+                        }, function (msg) {
+                            alert("msg = " + msg);
                         }
-                    },function (result) { // 如果成功了
-                        for(var item in updateOrSaveModal.baseUrlBean){
-                            item = null;
+                    );
+                } else {
+                    req(
+                        {
+                            url: baseUrl + "baseUrl",
+                            type: 'put',
+                            data: {
+                                id: updateOrSaveModal.baseUrlBean.id,
+                                project: updateOrSaveModal.baseUrlBean.project,
+                                platform: updateOrSaveModal.baseUrlBean.platform,
+                                env: updateOrSaveModal.baseUrlBean.env,
+                                baseUrl: updateOrSaveModal.baseUrlBean.baseUrl,
+                                desc: updateOrSaveModal.baseUrlBean.desc
+                            }
+                        }, function (result) { // 如果成功了
+                            for (var item in updateOrSaveModal.baseUrlBean) {
+                                item = null;
+                            }
+                            $("#updateOrSaveModal").modal('hide');
+                            pageDataRequest(pagination.currentPage);
+                        }, function (msg) {
+                            alert("msg = " + msg);
                         }
-                        $("#updateOrSaveModal").modal('hide');
-                        pageDataRequest(pagination.currentPage);
-                    },function (msg) {
-                        alert("msg = " + msg);
-                    }
-                )
+                    );
+                }
+            }
+        }
+    })
+
+    var deleteModal = new Vue({
+        el: '#deleteModal',
+        data: {
+            baseUrlBean: {
+                id: "",
+                project: "",
+                platform: "",
+                env: "",
+                baseUrl: "",
+                desc: ""
+            }
+        },
+        methods: {
+            deleteEntity: function () {
+                req({
+                    url: baseUrl + "baseUrl?id=" + deleteModal.baseUrlBean.id,
+                    type: 'delete'
+                }, function () {
+                    $('#deleteModal').modal('hide');
+                    pageDataRequest(pagination.currentPage);
+                })
             }
         }
     })
